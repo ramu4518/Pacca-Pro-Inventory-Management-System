@@ -1,0 +1,122 @@
+import pymongo
+import cv2
+from pyzbar.pyzbar import decode
+import datetime
+
+# Function to check if the scanned QR code exists in the "ins" collection
+def is_qr_code_present(qcode, collection):
+    document = collection.find_one({"code": qcode})
+    if document:
+        # Check if the flag value is 1
+        if document["flag"] == 1:
+            return False  # Allow a second entry if flag value is 1
+        else:
+            return True  # QR code exists with flag value 0, do not allow second entry
+    else:
+        return False  # QR code does not exist
+
+# Function to update data in "ins" collection
+def update_ins_collection(product, code, date, time, collection):
+    try:
+        # Check if the QR code already exists in the collection
+        if is_qr_code_present(code, collection):
+            print("QR code already exists in 'ins' collection.")
+            return
+
+        # Prepare data to update
+        data_to_update = {
+            "product": product,
+            "code": code,
+            "date": date,
+            "time": time,
+            "flag": 0,  # Assuming default flag value
+            "__v": 0   # Assuming default value
+        }
+
+        # Update data in collection
+        collection.insert_one(data_to_update)
+        print("Data updated in 'ins' collection.")
+
+    except pymongo.errors.PyMongoError as e:
+        print("MongoDB error:", e)
+
+# Main function
+# Main function
+def main():
+    try:
+        # Initialize the webcam
+        video_capture = cv2.VideoCapture(0)
+
+        # Set to store detected QR codes
+        detected_qr_codes = set()
+
+        # Connect to MongoDB
+        client = pymongo.MongoClient("mongodb://localhost:27017/")
+        db = client["paccapro"]
+        ins_collection = db["ins"]  # Collection to insert data
+        products_collection = db["products"]  # Collection to fetch product data
+
+        # Loop to capture frames from the webcam feed
+        while True:
+            # Capture frame-by-frame
+            ret, frame = video_capture.read()
+
+            if not ret:
+                print("Failed to grab frame")
+                break
+
+            # Decode QR codes
+            decoded_objects = decode(frame)
+
+            # Draw bounding boxes around QR codes and display decoded data
+            for obj in decoded_objects:
+                qr_data = obj.data.decode('utf-8')
+                if qr_data in detected_qr_codes:
+                    continue  # Skip if QR code is already detected
+                else:
+                    detected_qr_codes.add(qr_data)
+
+                # Check if QR code format is correct
+                if '_' not in qr_data or ', ' not in qr_data:
+                    print("Wrong QR code format detected")
+                    continue
+
+                # Extract data items from QR code separated by underscores
+                qr_items = qr_data.strip().split('_')
+
+                # Assign data items to variables
+                paint_name = qr_items[0]
+               
+                # Extracting the code data from the second part of QR data after the first underscore
+                code_data = qr_items[1].split('_')[0]  # Extract the first part before the next underscore
+               
+                date_str = qr_items[2]
+
+                # Split the date string to extract the date and time components
+                if ', ' in date_str:
+                    date, time = date_str.split(', ')
+                else:
+                    print("Invalid date format in QR code:", date_str)
+                    continue
+               
+                # Fetch the product name from the "products" collection based on product code
+                product_data = products_collection.find_one({"pro_code": code_data})
+                product_name = product_data.get("Product") if product_data else "Product Not Found"
+
+                # Call function to update MongoDB collection
+                update_ins_collection(product_name, code_data, date, time, ins_collection)
+
+            # Display the frame
+            cv2.imshow('Video', frame)
+
+            # Break the loop when 'q' is pressed
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+    finally:
+        # Release the webcam and close all windows
+        video_capture.release()
+        cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()

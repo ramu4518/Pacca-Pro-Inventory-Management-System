@@ -1,0 +1,155 @@
+<!-- navbar.html -->
+<div class="l-navbar" id="nav-bar">
+    <nav class="nav">
+        <div>
+            <!-- Logo Section -->
+            <a href="dashboard.php" class="nav_logo"> 
+                <img src="assets/img/f-logo.png" alt="Logo" style="height: 40px;">
+                <span class="nav_logo-name">Pacca Pro</span> 
+            </a>
+            <!-- Navigation Links -->
+            <div class="nav_list">
+                <a href="http://127.0.0.1:5000/" class="nav_link active">
+                    <i class='bx bx-bar-chart-alt-2 nav_icon'></i> 
+                    <span class="nav_name">In Model</span>
+                </a>
+                <a href="production.php" class="nav_link"> 
+                    <i class='bx bx-home nav_icon'></i> 
+                    <span class="nav_name">Production</span> 
+                </a>
+                <a href="packaging.php" class="nav_link"> 
+                    <i class='bx bx-folder nav_icon'></i> 
+                    <span class="nav_name">Packaging</span>
+                </a>
+                <a href="qr.php" class="nav_link"> 
+                    <i class='bx bx-qr nav_icon'></i> 
+                    <span class="nav_name">QR</span>
+                </a>
+                <a href="stock.php" class="nav_link"> 
+                    <i class='bx bx-package nav_icon'></i> 
+                    <span class="nav_name">Stock</span>
+                </a>
+                <a href="out_model.php" class="nav_link"> 
+                    <i class='bx bx-cart nav_icon'></i> 
+                    <span class="nav_name">Out</span>
+                </a>
+                <a href="Outmodell.php" class="nav_link"> 
+                    <i class='bx bx-send nav_icon'></i> 
+                    <span class="nav_name">Dispatch</span>
+                </a>
+                <a href="gatepass.php" class="nav_link"> 
+                    <i class='bx bxs-car-garage nav_icon'></i> 
+                    <span class="nav_name">Gatepass</span>
+                </a>
+                <a href="plan.php" class="nav_link" id="plan-link"> 
+                    <i class='bx bx-expand-alt'></i>
+                    <span class="nav_name">Report</span>
+                </a>
+                <div class="submenu" id="plan-submenu" style="display: none; padding-left: 20px;">
+                    <a href="#" class="nav_link-1" id="plan-production-link">
+                        <i class='bx bx-spreadsheet'></i>
+                        <span class="nav_name">Production</span>
+                    </a>
+                    <a href="#" class="nav_link-1" id="plan-packaging-link">
+                        <i class='bx bx-box'></i>
+                        <span class="nav_name">Packaging</span>
+                    </a>
+                </div>
+
+                <!-- New "Add Product" Section -->
+                <a href="#" class="nav_link" id="add-product-link"> 
+                    <i class='bx bx-plus nav_icon'></i> 
+                    <span class="nav_name">Add Product</span>
+                </a>
+                <div class="submenu" id="add-product-submenu" style="display: none; padding-left: 20px;">
+                    <a href="index-1.php" class="nav_link-1">
+                        <i class='bx bx-plus-circle'></i>
+                        <span class="nav_name" style="font-size: 15px;">Add Individual Product</span>
+                    </a>
+                    <a href="add_whole_products.php" class="nav_link-1">
+                        <i class='bx bx-box'></i>
+                        <span class="nav_name" style="font-size: 15px;">Add Whole Products</span>
+                    </a>
+                    <a href="display_products.php" class="nav_link-1">
+                        <i class='bx bx-show'></i>
+                        <span class="nav_name">Display</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <a href="logout.php" class="nav_link" class="nav_link_logout">
+            <i class='bx bx-log-out nav_icon'></i> 
+            <span class="nav_name">LogOut</span> 
+        </a>
+    </nav>
+</div>
+
+<style>
+    /* Adjust font size of navigation items */
+    .nav_name {
+        font-size: 18px; /* Change this value as needed */
+    }
+
+    /* Adjust icon size */
+    .nav_icon {
+        font-size: 18px; /* Change this value as needed */
+    }
+    .nav_logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    padding-left: 10px;
+    margin-right: 10px;
+    }
+
+    /* Adjust padding of nav links */
+    .nav_link {
+        padding: 8px 18px; /* Adjust padding if necessary */
+        margin: 5px 0; /* Reduce margin size: adjust values as needed */
+    }
+
+    .nav_link-1 {
+        padding: 8px 10px;
+        margin: 5px 0;
+        padding-left: 0.1px;
+        margin-right: 10px;
+    }
+
+    .nav_link-1 {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        align-items: center;
+        column-gap: 1rem;
+        position: relative;
+        color: gray;
+        transition: 0.3s;
+    }
+
+    .nav_link-1:hover {
+        color: #365CF5;
+    }
+
+    .nav_link:hover {
+        color: #365CF5;
+    }
+
+    /* Optionally, add hover effect to the new Add Product section */
+    #add-product-link:hover {
+        color: #365CF5; /* Highlight color on hover */
+    }
+
+    #add-product-submenu a:hover {
+        color: #365CF5; /* Highlight color for submenu items */
+    }
+    
+</style>
+
+<script>
+    // JavaScript for toggling the "Add Product" submenu visibility
+    document.getElementById('add-product-link').addEventListener('click', function() {
+        var submenu = document.getElementById('add-product-submenu');
+        // Toggle the visibility of the submenu
+        submenu.style.display = (submenu.style.display === 'none' || submenu.style.display === '') ? 'block' : 'none';
+    });
+</script>

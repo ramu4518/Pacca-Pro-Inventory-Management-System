@@ -1,0 +1,82 @@
+<table>
+    <tr>
+        <td><input type="checkbox" name="productSelect" value="REVE FIL"></td>
+        <td>REVE FIL</td>
+        <td>
+            <!-- Editable weight span -->
+            <span id="weight_REVE_FIL" contenteditable="true" onblur="saveWeight('REVE_FIL', this)">10.000</span>
+        </td>
+        <td>
+            <select name="batchSelect" class="form-control">
+                <option value="1">Batch 1</option>
+                <option value="2">Batch 2</option>
+                <option value="3">Batch 3</option>
+                <option value="4">Batch 4</option>
+            </select>
+        </td>
+        <td>
+            <button onclick="increaseWeight('REVE_FIL')">+</button>
+            <button onclick="decreaseWeight('REVE_FIL')">-</button>
+        </td>
+    </tr>
+</table>
+
+<script>
+// Function to increase weight by 10 and round to nearest whole number
+function increaseWeight(productId) {
+    let weightSpan = document.getElementById(`weight_${productId}`);
+    let currentWeight = parseFloat(weightSpan.textContent) || 0;
+    let newWeight = currentWeight + 10;
+    
+    // Update with nearest multiple of 10
+    weightSpan.textContent = Math.round(newWeight / 10) * 10;
+}
+
+// Function to decrease weight by 10 and round to nearest whole number
+function decreaseWeight(productId) {
+    let weightSpan = document.getElementById(`weight_${productId}`);
+    let currentWeight = parseFloat(weightSpan.textContent) || 0;
+
+    if (currentWeight > 0) {
+        let newWeight = currentWeight - 10;
+        
+        // Update with nearest multiple of 10
+        weightSpan.textContent = Math.round(newWeight / 10) * 10;
+    }
+}
+
+// Function to save weight after manual input
+function saveWeight(productId, element) {
+    let newWeight = parseFloat(element.textContent);
+    if (!isNaN(newWeight)) {
+        // Update the display with the valid input
+        element.textContent = Math.round(newWeight / 10) * 10;
+        console.log(`Weight for product ${productId} updated to ${element.textContent}`);
+    } else {
+        // Reset to original value if input is invalid
+        element.textContent = 10.000; // or use weightsPerProduct[productId]
+        alert('Please enter a valid number.');
+    }
+}
+</script>
+
+function increaseWeight(productId) {
+    let weightSpan = document.getElementById(`weight_${productId}`);
+    let currentWeight = parseFloat(weightSpan.textContent) || 0;
+    let newWeight = currentWeight + 10;
+    
+    // Round to the nearest multiple of 10
+    weightSpan.textContent = Math.round(newWeight / 10) * 10;
+}
+
+function decreaseWeight(productId) {
+    let weightSpan = document.getElementById(`weight_${productId}`);
+    let currentWeight = parseFloat(weightSpan.textContent) || 0;
+
+    if (currentWeight > 0) {
+        let newWeight = currentWeight - 10;
+        
+        // Round to the nearest multiple of 10
+        weightSpan.textContent = Math.round(newWeight / 10) * 10;
+    }
+}

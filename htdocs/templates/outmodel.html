@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap.bundle@5.0.0-beta1/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Dashboard</title>
+    <style>
+        #content-overlay {
+            position: relative;
+            /* Ensure relative positioning for the overlay content */
+        }
+
+        #gif-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* Ensure the GIF overlay appears above other content */
+        }
+
+        .green-row {
+            background-color: lightgreen;
+        }
+
+        .prtbtn {
+            background-color: rgb(25, 165, 175);
+            /* Primary background color */
+            color: white;
+            /* Text color */
+            font-size: 16px;
+            /* Font size */
+            font-weight: bold;
+            /* Bold text */
+            border: none;
+            /* Remove border */
+            border-radius: 5px;
+            /* Rounded corners */
+            padding: 10px 20px;
+            /* Padding inside the button */
+            cursor: pointer;
+            /* Change cursor to pointer on hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Add subtle shadow */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            /* Smooth transitions */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .nav_logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            padding-left: 15px;
+        }
+
+        @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+        :root {
+            --header-height: 3rem;
+            --nav-width: 68px;
+            --body-font: 'Nunito', sans-serif;
+            --normal-font-size: 1rem;
+            --z-fixed: 100
+        }
+
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box
+        }
+
+        body {
+            position: relative;
+            margin: var(--header-height) 0 0 0;
+            padding: 0 1rem;
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+            transition: .5s;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        .header {
+            width: 100%;
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            background-color: white;
+            z-index: var(--z-fixed);
+            transition: .5s
+        }
+
+        .header_toggle {
+            color: gray;
+            font-size: 1.5rem;
+            cursor: pointer
+        }
+
+        .search {
+            width: 90%;
+            padding: 1rem;
+        }
+
+        #searchInput {
+            width: 75%;
+            outline: none;
+            border: none;
+            border-radius: 0.5rem;
+            height: 1.5rem;
+            padding: 1rem 0.5rem;
+            background-color: white;
+        }
+
+        .searchIcons {
+            color: gray;
+            margin-right: -0.2rem;
+            background-color: white;
+        }
+
+        #bellIcon {
+            margin-left: 1rem;
+        }
+
+        #name {
+            font-size: 0.8rem;
+            margin-left: 2.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .bi-chevron-down {
+            width: 0.6rem;
+        }
+
+
+        .header_img {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .header_img img {
+            width: 40px
+        }
+
+        .l-navbar {
+            position: fixed;
+            top: 0;
+            left: -30%;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: white;
+            padding: .5rem 1rem 0 0;
+            transition: .5s;
+            z-index: var(--z-fixed);
+            border-right: 1px solid #dedede;
+        }
+
+        .nav {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden
+        }
+
+        .nav_logo,
+        .nav_link {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            align-items: center;
+            column-gap: 1rem;
+            padding: .5rem 0 .5rem 1.5rem
+        }
+
+        .nav_logo {
+            margin-bottom: 2rem;
+            padding-left: 15px;
+        }
+
+        .nav_logo-icon {
+            font-size: 1.25rem;
+            color: gray;
+        }
+
+        .nav_logo-name {
+            color: black;
+            font-weight: 700
+        }
+
+        .nav_link {
+            position: relative;
+            color: gray;
+            margin-bottom: 0.5rem;
+            transition: .3s
+        }
+
+        .nav_link:hover {
+            color: #365CF5;
+        }
+
+        .nav_icon {
+            font-size: 1.25rem
+        }
+
+        .show {
+            left: 0
+        }
+
+        .body-pd {
+            padding-left: calc(var(--nav-width) + 1rem)
+        }
+
+        .active {
+            color: gray;
+        }
+
+        .active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 2px;
+            height: 32px;
+            background-color: white;
+        }
+
+        main {
+            margin-top: 5.75rem !important;
+        }
+
+        .containerr {
+            margin: 2rem 0 0 0;
+            padding: 0;
+            display: flex;
+            width: 100% !important;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .containerr>div {
+            width: 21rem;
+            background-color: #f5f5f5;
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 1rem;
+            gap: 1rem;
+            min-height: 70vh;
+            margin: 0 1rem 2rem 0;
+        }
+
+
+        @media (max-width: 1241px) {
+            #searchInput {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 944px) {
+            .containerr {
+                justify-content: center;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            body {
+                margin: calc(var(--header-height) + 1rem) 0 0 0;
+                padding-left: calc(var(--nav-width) + 2rem)
+            }
+
+            .header {
+                height: calc(var(--header-height) + 1rem);
+                padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
+            }
+
+            .header_img {
+                width: 40px;
+                height: 40px
+            }
+
+            .header_img img {
+                width: 45px
+            }
+
+            .l-navbar {
+                left: 0;
+                padding: 1rem 1rem 0 0
+            }
+
+            .show {
+                width: calc(var(--nav-width) + 156px)
+            }
+
+            .body-pd {
+                padding-left: calc(var(--nav-width) + 188px)
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            #name,
+            #markdown {
+                display: none;
+            }
+
+            #bellIcon {
+                margin-right: 1rem;
+            }
+        }
+
+        @media(max-width: 700px) {
+            .containerr>div {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 380px) {
+            input::placeholder {
+                color: white;
+            }
+        }
+    </style>
+</head>
+
+<body id="body-pd">
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="http://127.0.0.1/dashboard.php" class="nav_logo">
+                    <img src="http://127.0.0.1/assets/img/f-logo.png" alt="Logo" style="height: 40px;">
+                    <span class="nav_logo-name">Pacca Pro</span> </a>
+                <div class="nav_list">
+                    <a href="http://127.0.0.1:5000/" class="nav_link active"><i
+                            class='bx bx-bar-chart-alt-2 nav_icon'></i>
+                        <span class="nav_name">In Model</span></a>
+                    <a href="http://127.0.0.1/production.php" class="nav_link"> <i class='bx bx-home nav_icon'></i>
+                        <span class="nav_name">Production</span> </a>
+                    <a href="http://127.0.0.1/packaging.php" class="nav_link"> <i class='bx bx-folder nav_icon'></i>
+                        <span class="nav_name">Packaging</span></a>
+                    <a href="http://127.0.0.1/qr.php" class="nav_link"> <i class='bx bx-qr nav_icon'></i> <span
+                            class="nav_name">QR</span></a>
+                    <a href="http://127.0.0.1/stock.php" class="nav_link">
+                        <i class='bx bx-package nav_icon'></i>
+                        <span class="nav_name">Stock</span>
+                    </a>
+                    <a href="http://127.0.0.1/out_model.php" class="nav_link">
+                        <i class='bx bx-cart nav_icon'></i>
+                        <span class="nav_name">Out</span>
+                    </a>
+                    <a href="http://127.0.0.1/Outmodell.php" class="nav_link">
+                        <i class='bx bx-send nav_icon'></i>
+                        <span class="nav_name">Dispatch</span>
+                    </a>
+                    <a href="http://127.0.0.1/gatepass.php" class="nav_link">
+                        <i class='bx bxs-car-garage'></i>
+                        <span class="nav_name">Gatepass</span>
+                    </a>
+                    <a href="http://127.0.0.1/plan.php" class="nav_link" id="plan-link">
+                        <i class='bx bx-expand-alt'></i>
+                        <span class="nav_name">Report</span>
+                    </a>
+                    <div class="submenu" id="plan-submenu" style="display: none; padding-left: 20px;">
+                        <a href="#" class="nav_link" id="plan-production-link">
+                            <i class='bx bx-spreadsheet'></i>
+                            <span class="nav_name">Production</span>
+                        </a>
+                        <a href="#" class="nav_link" id="plan-packaging-link">
+                            <i class='bx bx-box'></i>
+                            <span class="nav_name">Packaging</span>
+                        </a>
+                    </div>
+                    <!-- New "Add Product" Section -->
+                    <a href="http://127.0.0.1/index-1.php" class="nav_link" id="add-product-link">
+                        <i class='bx bx-plus nav_icon'></i>
+                        <span class="nav_name">Add Product</span>
+                    </a>
+                    <div class="submenu" id="add-product-submenu" style="display: none; padding-left: 20px;">
+                        <a href="http://127.0.0.1/index-1.php" class="nav_link-1">
+                            <i class='bx bx-plus-circle'></i>
+                            <span class="nav_name" style="font-size: 15px;">Add Individual
+                                Product</span>
+                        </a>
+                        <a href="http://127.0.0.1/add_whole_products.php" class="nav_link-1">
+                            <i class='bx bx-box'></i>
+                            <span class="nav_name" style="font-size: 15px;">Add Whole
+                                Products</span>
+                        </a>
+                        <a href="http://127.0.0.1/display_products.php" class="nav_link-1">
+                            <i class='bx bx-show'></i>
+                            <span class="nav_name">Display</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <a href="index.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span
+                    class="nav_name">LogOut</span> </a>
+        </nav>
+    </div>
+    <!-- End of menu, sidebar, and nav bar code -->
+
+    <main>
+        <h4>Out Model</h4>
+
+        <div style="align-items: center;">
+            <button class="prtbtn" id="startBtn" onclick="startScanning()">Start Scanning</button>
+            <button class="prtbtn" id="stopBtn" onclick="stopScanning()">Stop Scanning</button>
+        </div>
+
+        <br>
+        <div style="text-align: center; font-size: 2.0rem; font-weight: 400;">
+            <label for="orderidfield"><b>Order ID:</b></label>
+            <span id="orderidfield"></span>
+        </div>
+
+        <div style="text-align: center; font-size: 2.0rem; font-weight: 400;">
+            <label for="orderField"><b>Order:</b></label>
+            <span id="orderField"></span>
+        </div>
+
+        <div style="text-align: center;">
+            <h1><b>Sales Order Data</b></h1>
+        </div>
+
+        <table id="salesOrderTable">
+            <thead>
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Product</th>
+                    <th>Demand</th>
+                    <th>Processed</th>
+                    <th>Pending</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+
+        <button class="prtbtn" onclick="printOrderDetails()">Print Order Details</button>
+        <button class="prtbtn" onclick="finish()">finish</button>
+
+        <center>
+
+            <div id="gif-container" style="display: none;">
+                <img id="correct-gif" src="http://127.0.0.1/correct.gif" alt="Correct GIF" style="display: none;">
+                <img id="incorrect-gif" src="http://127.0.0.1/incorrect.gif" alt="Incorrect GIF" style="display: none;">
+                <img id="check-gif" src="http://127.0.0.1/check.gif" alt="Check GIF" style="display: none;">
+            </div>
+        </center>
+    </main>
+
+    <div id="outputContainer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+
+        // This function is called when the "Finish" button is clicked
+        function finish() {
+            window.location.href = 'http://127.0.0.1/Outmodell.php'; // Navigates to outmodel.php
+        }
+
+
+
+
+        var socket = io();
+
+        socket.on('connect', function () {
+            console.log('Connected to server.');
+        });
+
+        socket.on('qr_code_processed', function (data) {
+            var message = data.message;
+            var p = document.createElement('p');
+            p.textContent = message;
+            document.getElementById('outputContainer').appendChild(p);
+        });
+
+        function startScanning() {
+            fetch('/start_scanning', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Scanning started.');
+                    } else {
+                        console.error('Error starting scanning.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function stopScanning() {
+            fetch('/stop_scanning', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Scanning stopped.');
+                    } else {
+                        console.error('Error stopping scanning.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        console.log('Connected to server.');
+
+        socket.on('processed_pending_data', function (data) {
+            updateSalesOrderTable(data);
+        });
+
+        setInterval(fetchSalesOrderData, 10000);
+
+        function fetchSalesOrderData() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    updateSalesOrderTable(data);
+                }
+            };
+
+            xhr.open('GET', 'http://127.0.0.1/templates/fetch_sales_order_data.php', true);
+            xhr.send();
+        }
+
+        function updateSalesOrderTable(data) {
+            var tableBody = document.getElementById('tableBody');
+
+            tableBody.innerHTML = '';
+
+            data.forEach(function (rowData, index) {
+                var newRow = tableBody.insertRow();
+                newRow.dataset.productId = rowData['ID'];
+
+                var cellIndex = newRow.insertCell();
+                cellIndex.textContent = index + 1;
+
+                Object.values(rowData).forEach(function (cellData, cellIndex) {
+                    var cell = newRow.insertCell();
+                    cell.textContent = cellData;
+
+                    if (cellIndex === 4 && cellData == 0) {
+                        newRow.classList.add('green-row');
+                    }
+                });
+            });
+
+            updateRowColors(data);
+        }
+
+        function updateRowColors(data) {
+            var tableBody = document.getElementById('tableBody');
+            var rows = tableBody.rows;
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var pendingCell = row.cells[4];
+                if (pendingCell && pendingCell.textContent.trim() == '0') {
+                    row.classList.add('green-row');
+                } else {
+                    row.classList.remove('green-row');
+                }
+            }
+        }
+
+        function fetchParticularsData() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = xhr.responseText.split(',');
+                    var particulars = data[0];
+                    var orderid = data[1];
+                    document.getElementById('orderField').textContent = particulars;
+                    document.getElementById('orderidfield').textContent = orderid;
+                }
+            };
+
+            xhr.open('GET', 'http://127.0.0.1/templates/fetch_order_details.php', true);
+            xhr.send();
+        }
+
+        fetchParticularsData();
+        setInterval(fetchParticularsData, 10000);
+
+        fetchSalesOrderData();
+        setInterval(fetchSalesOrderData, 5000);
+
+        socket.emit('start_fetching_processed_pending', 'product_name');
+
+        socket.on('gif_trigger', function (data) {
+            var gifContainer = document.getElementById('gif-container');
+            var correctGif = document.getElementById('correct-gif');
+            var incorrectGif = document.getElementById('incorrect-gif');
+            var checkgif = document.getElementById('check-gif');
+
+            gifContainer.style.display = 'block';
+
+            if (data.value === 1) {
+                correctGif.style.display = 'block';
+                incorrectGif.style.display = 'none';
+                checkgif.style.display = 'none';
+            }
+            else if (data.value === 2) {
+                correctGif.style.display = 'none';
+                checkgif.style.display = 'block';
+                incorrectGif.style.display = 'none';
+            }
+            else if(data.value === 0) {
+                correctGif.style.display = 'none';
+                checkgif.style.display = 'none';
+                incorrectGif.style.display = 'block';
+            }else{
+                correctGif.style.display = 'none';
+                checkgif.style.display = 'none';
+                incorrectGif.style.display = 'block';
+            }
+
+            setTimeout(function () {
+                gifContainer.style.display = 'none';
+                correctGif.style.display = 'none';
+                incorrectGif.style.display = 'none';
+            }, 5000);
+        });
+
+        function printOrderDetails() {
+            var orderId = document.getElementById('orderidfield').textContent.trim();
+            var particulars = document.getElementById('orderField').textContent.trim();
+            var salesOrderTable = document.getElementById('salesOrderTable').outerHTML;
+
+            var printWindow = window.open('', '_blank');
+
+            var content = `
+                <html>
+                <head>
+                    <title>Order Details</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            padding: 1rem;
+                        }
+                        .order-info {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .order-info label {
+                            font-size: 2.0rem;
+                            font-weight: 400;
+                        }
+                        .order-info span {
+                            font-size: 2.0rem;
+                            font-weight: 400;
+                        }
+                        h1 {
+                            text-align: center;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+                        th, td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #f2f2f2;
+                        }
+                        .green-row {
+                            background-color: lightgreen;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="order-info">
+                        <label for="orderidfield"><b>Order ID:</b></label>
+                        <span>${orderId}</span>
+                    </div>
+
+                    <div class="order-info">
+                        <label for="orderField"><b>Order:</b></label>
+                        <span>${particulars}</span>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <h1><b>Sales Order Data</b></h1>
+                    </div>
+
+                    ${salesOrderTable}
+                </body>
+                </html>
+            `;
+
+            printWindow.document.open();
+            printWindow.document.write(content);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function getProductName() {
+            var row = document.querySelector('#salesOrderTable tbody tr');
+
+            if (row && row.cells.length > 1) { // Ensure row and the second cell exist
+                var productName = row.cells[1].textContent.trim();
+                console.log("Product:", productName); // Debugging
+                return productName;
+            } else {
+                console.error("Product data not found!");
+                return "No product found";
+            }
+        }
+
+        // Example: Assign the product name to an element before printing
+        document.getElementById("productNameElement").textContent = getProductName();
+
+
+        function calculateTotalDemand() {
+            var rows = document.querySelectorAll('#salesOrderTable tbody tr');
+            var totalDemand = 0;
+
+            rows.forEach(function (row) {
+                var demand = parseInt(row.cells[2].textContent);
+                if (!isNaN(demand)) {
+                    totalDemand += demand;
+                }
+            });
+
+            return totalDemand;
+        }
+
+        function calculateProcessed() {
+            var rows = document.querySelectorAll('#salesOrderTable tbody tr');
+            var processed = 0;
+
+            rows.forEach(function (row) {
+                var process = parseInt(row.cells[3].textContent);
+                if (!isNaN(process)) {
+                    processed += process;
+                }
+            });
+
+            return processed;
+        }
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            const showNavbar = (toggleId, navId, bodyId, headerId) => {
+                const toggle = document.getElementById(toggleId),
+                    nav = document.getElementById(navId),
+                    bodypd = document.getElementById(bodyId),
+                    headerpd = document.getElementById(headerId);
+
+                // Validate that all variables exist
+                if (toggle && nav && bodypd && headerpd) {
+                    toggle.addEventListener('click', () => {
+                        // Toggle navbar
+                        nav.classList.toggle('show');
+                        // Change icon
+                        toggle.classList.toggle('bx-x');
+                        // Add padding to body
+                        bodypd.classList.toggle('body-pd');
+                        // Add padding to header
+                        headerpd.classList.toggle('body-pd');
+                    });
+
+                    // Initialize the navbar in expanded view
+                    nav.classList.add('show');
+                    toggle.classList.add('bx-x');
+                    bodypd.classList.add('body-pd');
+                    headerpd.classList.add('body-pd');
+                }
+            };
+
+            showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
+
+            /*===== LINK ACTIVE =====*/
+            const linkColor = document.querySelectorAll('.nav_link');
+
+            function colorLink() {
+                if (linkColor) {
+                    linkColor.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            }
+            linkColor.forEach(l => l.addEventListener('click', colorLink));
+        });
+
+
+
+    </script>
+</body>
+
+</html>

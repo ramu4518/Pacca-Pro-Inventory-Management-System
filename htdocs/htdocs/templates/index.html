@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner Control</title>
+</head>
+<body>
+    <h1>QR Code Scanner Control</h1>
+    <button id="startBtn" onclick="startScanning()">Start Scanning</button>
+    <button id="stopBtn" onclick="stopScanning()">Stop Scanning</button>
+
+    <div id="outputContainer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        socket.on('connect', function() {
+            console.log('Connected to server.');
+        });
+
+        socket.on('qr_code_processed', function(data) {
+            var message = data.message;
+            var p = document.createElement('p');
+            p.textContent = message;
+            document.getElementById('outputContainer').appendChild(p);
+        });
+
+        function startScanning() {
+            fetch('/start_scanning', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Scanning started.');
+                    } else {
+                        console.error('Error starting scanning.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function stopScanning() {
+            fetch('/stop_scanning', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Scanning stopped.');
+                    } else {
+                        console.error('Error stopping scanning.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
