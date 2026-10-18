@@ -1,17 +1,30 @@
+
 <?php
 // db_connect.php
 
-// Database configuration
-$host = "localhost";
-$dbUsername = "root"; // Default username for localhost
-$dbPassword = ""; // Default password for localhost (empty)
-$dbName = "paccapro";
+// Detect whether hosted database environment variables are available
+$host = getenv('MYSQL_ADDON_HOST') ?: 'localhost';
+$dbUsername = getenv('MYSQL_ADDON_USER') ?: 'root';
+$dbPassword = getenv('MYSQL_ADDON_PASSWORD') ?: '';
+$dbName = getenv('MYSQL_ADDON_DB') ?: 'paccapro';
+$dbPort = (int) (getenv('MYSQL_ADDON_PORT') ?: 3306);
 
-// Create connection
-$conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+// Create database connection
+$conn = new mysqli(
+    $host,
+    $dbUsername,
+    $dbPassword,
+    $dbName,
+    $dbPort
+);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    error_log('Database connection failed: ' . $conn->connect_error);
+    http_response_code(500);
+    exit('Unable to connect to the database.');
 }
+
+// Set character encoding
+$conn->set_charset('utf8mb4');
 ?>
