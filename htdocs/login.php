@@ -15,6 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // SQL query to fetch user
     $query = "SELECT * FROM user WHERE user_name = '$username' AND pass = '$password'";
     $result = $conn->query($query);
+    if ($result === false) {
+    error_log('Login query failed: ' . $conn->error);
+} else {
+    error_log('Login query returned rows: ' . $result->num_rows);
+}
 
     if ($result->num_rows == 1) {
         // Set session variables
