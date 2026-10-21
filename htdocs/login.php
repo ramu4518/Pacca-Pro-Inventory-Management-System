@@ -2,7 +2,8 @@
 session_start();
 
 // Include the database connection file
- include 'db_connect.php';// This replaces the previous database connection code
+require_once __DIR__ . '/db_connect.php';
+
 
 // Initialize an error message variable
 $_SESSION['error'] = '';
