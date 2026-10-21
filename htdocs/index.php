@@ -65,7 +65,7 @@
     <div class="login">
         <div class="login__content">
             <div class="login__img" >
-                <img id="logoback" src="assets/img/f-logo.png" alt="">
+                <img id="logoback" src="#" alt="">
             </div>
 
             <div class="login__forms">
