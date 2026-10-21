@@ -70,7 +70,7 @@
 
             <div class="login__forms">
                 <form action="login.php" method="POST" class="login__registre" id="login-in">
-                    <h1 class="login__title">LOGIN</h1>
+                    <h1 class="login__title">LOGIN01</h1>
     
                     <div class="login__box">
                         <i class='bx bx-user login__icon'></i>
