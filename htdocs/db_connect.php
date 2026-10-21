@@ -1,7 +1,7 @@
 
 <?php
 // db_connect.php
-
+mysqli_report(MYSQLI_REPORT_OFF);
 // Detect whether hosted database environment variables are available
 $host = getenv('MYSQL_ADDON_HOST') ?: 'localhost';
 $dbUsername = getenv('MYSQL_ADDON_USER') ?: 'root';
