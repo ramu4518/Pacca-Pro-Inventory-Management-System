@@ -6,7 +6,7 @@
 $host = getenv('MYSQL_ADDON_HOST') ?: 'localhost';
 $dbUsername = getenv('MYSQL_ADDON_USER') ?: 'root';
 $dbPassword = getenv('MYSQL_ADDON_PASSWORD') ?: '';
-$dbName = getenv('MYSQL_ADDON_DB') ?: 'paccapro';
+$dbName = getenv('MYSQL_ADDON_DB') ?: 'bfpctljqtl9rpex9dccw';
 $dbPort = (int) (getenv('MYSQL_ADDON_PORT') ?: 3306);
 
 // Create database connection
