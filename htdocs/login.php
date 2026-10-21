@@ -1,39 +1,32 @@
 <?php
 session_start();
-
-// Include the database connection file
 require_once __DIR__ . '/db_connect.php';
 
-
-// Initialize an error message variable
 $_SESSION['error'] = '';
 
-// Check if form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $conn->real_escape_string($_POST['password']);
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    // SQL query to fetch user
-    $query = "SELECT * FROM user WHERE user_name = '$username' AND pass = '$password'";
-    $result = $conn->query($query);
-    if ($result === false) {
-    error_log('Login query failed: ' . $conn->error);
-} else {
-    error_log('Login query returned rows: ' . $result->num_rows);
-}
-
-    if ($result->num_rows == 1) {
-        // Set session variables
-        $_SESSION['username'] = $username;
-        // Redirect to a new page (e.g., home.php)
-        header("Location: dashboard.php");
-        exit();
-    } else {
-        // Store error message in session
-        $_SESSION['error'] = "Invalid username or password.";
-        header("Location: index.php"); // assuming the login form is in index.html
+    $stmt = $conn->prepare("SELECT 1 FROM user WHERE user_name = ? AND pass = ?");
+    if (!$stmt) {
+        error_log('Login prepare failed: ' . $conn->error);
+        $_SESSION['error'] = "Something went wrong. Please try again.";
+        header("Location: index.php");
         exit();
     }
-}
 
-$conn->close();
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 1) {
+        $_SESSION['username'] = $username;
+        header("Location: dashboard.php");
+        exit();
+    }
+
+    $_SESSION['error'] = "Invalid username or password.";
+    header("Location: index.php");
+    exit();
+}
